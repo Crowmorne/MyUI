@@ -8,12 +8,18 @@ local LAYOUT_NAME = "MyUI"
 -- If we try while in combat, remember it and retry when combat ends.
 local pending = false
 
--- A hidden frame in a stack takes up no space:
+-- Frames that come and go while playing. When one of them is hidden it takes up no space:
 -- anchoring to it anchors to wherever it would sit instead.
+-- Other frames always count as there, even if they're briefly hidden while logging in.
+local COLLAPSIBLE = {
+    SecondaryStatusTrackingBarContainer = true, -- only there while a reputation is tracked
+    StanceBar = true,                           -- hidden for classes without stances
+}
+
 local function ResolveAnchor(name, relativePoint)
     local frame = _G[name]
     local cfg = ns.config.frames[name]
-    while frame and not frame:IsShown() and cfg and cfg.point do
+    while COLLAPSIBLE[name] and not frame:IsShown() do
         name, relativePoint = cfg.point[2], cfg.point[3]
         frame = _G[name]
         cfg = ns.config.frames[name]
@@ -220,15 +226,11 @@ local function ApplyAll()
     end
 end
 
--- When the second status bar appears or disappears (a reputation gets tracked or untracked),
--- the action bars above it have to move
+-- When one of the frames that come and go appears or disappears, whatever sits on it has to move
 SecondaryStatusTrackingBarContainer:HookScript("OnShow", ApplyAll)
 SecondaryStatusTrackingBarContainer:HookScript("OnHide", ApplyAll)
-
--- Bar 2 shows up a moment after its checkbox gets ticked, after the layout was already written
--- with bar 3 sitting in its place. Write it again once bar 2 is there.
-MultiBarBottomLeft:HookScript("OnShow", ApplyAll)
-
+StanceBar:HookScript("OnShow", ApplyAll)
+StanceBar:HookScript("OnHide", ApplyAll)
 MoveBagsBar()
 hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
 HideMicroMenuArt()
