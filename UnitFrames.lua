@@ -47,6 +47,19 @@ local function AddText(frame, bar, point, x, tag)
     return text
 end
 
+-- A semi-transparent bar inside the health bar, starting where `anchor` ends.
+-- oUF fills it with incoming heals or shields.
+local function AddPredictionBar(health, anchor, width, r, g, b, a)
+    local bar = CreateFrame("StatusBar", nil, health)
+    bar:SetPoint("TOP")
+    bar:SetPoint("BOTTOM")
+    bar:SetPoint("LEFT", anchor, "RIGHT")
+    bar:SetWidth(width)
+    bar:SetStatusBarTexture(TEXTURE)
+    bar:SetStatusBarColor(r, g, b, a)
+    return bar
+end
+
 -- Tukui look for aura icons: the icon cropped slightly (hides the game's built-in icon edge)
 -- inside a 1 pixel black border
 local function StyleAuraIcon(button, icon)
@@ -97,6 +110,27 @@ local function Style(self, unit)
     AddBackdrop(health)
     self.Health = health
 
+    -- Incoming heals (own ones brighter) and shields, after the current health.
+    -- They stop at the end of the bar; a shield on full health shows as a white line at the edge.
+    local playerHeals = AddPredictionBar(health, health:GetStatusBarTexture(), cfg.width, 0, 1, 0.5, 0.5)
+    local otherHeals = AddPredictionBar(health, playerHeals:GetStatusBarTexture(), cfg.width, 0, 0.6, 0.3, 0.5)
+    local shield = AddPredictionBar(health, otherHeals:GetStatusBarTexture(), cfg.width, 1, 1, 1, 0.35)
+    local overShield = health:CreateTexture(nil, "OVERLAY")
+    overShield:SetPoint("TOPRIGHT")
+    overShield:SetPoint("BOTTOMRIGHT")
+    overShield:SetWidth(2)
+    overShield:SetColorTexture(1, 1, 1, 0.9)
+    health.HealingPlayer = playerHeals
+    health.HealingOther = otherHeals
+    health.DamageAbsorb = shield
+    health.OverDamageAbsorbIndicator = overShield
+    health.incomingHealOverflow = 1
+
+    -- Texts go on a layer above the heal and shield bars
+    local textLayer = CreateFrame("Frame", nil, health)
+    textLayer:SetAllPoints()
+    textLayer:SetFrameLevel(shield:GetFrameLevel() + 1)
+
     if cfg.powerHeight then
         local power = CreateFrame("StatusBar", nil, self)
         power:SetPoint("BOTTOMLEFT")
@@ -110,19 +144,19 @@ local function Style(self, unit)
     end
 
     if unit == "player" then
-        AddText(self, health, "LEFT", 4, "[curpp]")
-        AddText(self, health, "RIGHT", -4, "[curhp]")
+        AddText(self, textLayer, "LEFT", 4, "[curpp]")
+        AddText(self, textLayer, "RIGHT", -4, "[curhp]")
     elseif unit == "target" then
         -- The name ends before the health number, cut off with "..." if too long
-        local healthText = AddText(self, health, "RIGHT", -4, "[curhp]")
-        local name = AddText(self, health, "LEFT", 4, "[smartlevel] [name]")
+        local healthText = AddText(self, textLayer, "RIGHT", -4, "[curhp]")
+        local name = AddText(self, textLayer, "LEFT", 4, "[smartlevel] [name]")
         name:SetPoint("RIGHT", healthText, "LEFT", -4, 0)
         name:SetJustifyH("LEFT")
         name:SetWordWrap(false)
     else
         -- Spans the bar with a fixed width, so long names get cut off with "..."
-        local name = AddText(self, health, "LEFT", 4, "[name]")
-        name:SetPoint("RIGHT", health, "RIGHT", -4, 0)
+        local name = AddText(self, textLayer, "LEFT", 4, "[name]")
+        name:SetPoint("RIGHT", textLayer, "RIGHT", -4, 0)
         name:SetJustifyH("CENTER")
         name:SetWordWrap(false)
     end
