@@ -42,19 +42,27 @@ local function SetSetting(systemInfo, setting, value)
     return false
 end
 
--- Unit frames store their size in the layout as steps of 5% above 100% (100% to 200%).
--- Returns false if the frame has no size setting in the layout.
+-- Edit Mode size sliders: setting, minimum and maximum percent.
+-- The layout stores them as steps of 5% above the minimum.
+local SIZE_SETTINGS = {
+    [Enum.EditModeSystem.UnitFrame] = { Enum.EditModeUnitFrameSetting.FrameSize, 100, 200 },
+    [Enum.EditModeSystem.StatusTrackingBar] = { Enum.EditModeStatusTrackingBarSetting.Size, 50, 130 },
+}
+
+-- Returns false if the frame has no size setting in the layout
 local function SetFrameSize(systemInfo, name, scale)
-    if systemInfo.system ~= Enum.EditModeSystem.UnitFrame then
+    local sizeSetting = SIZE_SETTINGS[systemInfo.system]
+    if not sizeSetting then
         return false
     end
-    local percent = math.min(math.max(scale * 100, 100), 200)
-    local value = math.floor((percent - 100) / 5 + 0.5)
-    if not SetSetting(systemInfo, Enum.EditModeUnitFrameSetting.FrameSize, value) then
+    local setting, minPercent, maxPercent = unpack(sizeSetting)
+    local percent = math.min(math.max(scale * 100, minPercent), maxPercent)
+    local value = math.floor((percent - minPercent) / 5 + 0.5)
+    if not SetSetting(systemInfo, setting, value) then
         return false
     end
     if percent ~= scale * 100 then
-        print(addonName .. ": " .. name .. " scale must be between 1.0 and 2.0")
+        print(addonName .. ": " .. name .. " scale must be between " .. minPercent / 100 .. " and " .. maxPercent / 100)
     end
     return true
 end

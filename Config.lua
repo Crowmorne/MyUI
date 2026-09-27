@@ -13,9 +13,11 @@ ns.config = {
         -- Status bars (experience, reputation, ...), then action bars 1, 2 and 3 stacked on top
         MainStatusTrackingBarContainer = {
             point = { "BOTTOM", "UIParent", "BOTTOM", 0, 0 },
+            scale = 0.9,
         },
         SecondaryStatusTrackingBarContainer = {
             point = { "BOTTOM", "MainStatusTrackingBarContainer", "TOP", 0, 0 },
+            scale = 0.9,
         },
         MainActionBar = {
             point = { "BOTTOM", "SecondaryStatusTrackingBarContainer", "TOP", 0, 0 },
