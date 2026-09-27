@@ -29,6 +29,11 @@ ns.config = {
             point = { "BOTTOM", "MultiBarBottomLeft", "TOP", 0, 0 },
         },
 
+        -- Cast bar above the action bars
+        PlayerCastingBarFrame = {
+            point = { "BOTTOM", "MultiBarBottomRight", "TOP", 0, 20 },
+        },
+
         -- Stance bar in the bottom left corner, exit vehicle button on top of it
         StanceBar = {
             point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0 },
