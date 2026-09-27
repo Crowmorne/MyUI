@@ -221,17 +221,10 @@ local function ApplyAll()
     end
 end
 
--- When a frame that others are anchored to appears or disappears (e.g. the second status bar
--- when a reputation gets tracked), the frames above it have to move
-local hooked = {}
-for _, cfg in pairs(ns.config.frames) do
-    local targetName = cfg.point and cfg.point[2]
-    if targetName and ns.config.frames[targetName] and _G[targetName] and not hooked[targetName] then
-        _G[targetName]:HookScript("OnShow", ApplyAll)
-        _G[targetName]:HookScript("OnHide", ApplyAll)
-        hooked[targetName] = true
-    end
-end
+-- When the second status bar appears or disappears (a reputation gets tracked or untracked),
+-- the action bars above it have to move
+SecondaryStatusTrackingBarContainer:HookScript("OnShow", ApplyAll)
+SecondaryStatusTrackingBarContainer:HookScript("OnHide", ApplyAll)
 
 MoveBagsBar()
 hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
@@ -251,6 +244,12 @@ events:SetScript("OnEvent", function(_, event, isInitialLogin, isReloadingUi)
     end
 end)
 
--- /myui re-applies the config without a full reload
+-- /myui re-applies the config without a full reload, /myui test toggles the test mode
 SLASH_MYUI1 = "/myui"
-SlashCmdList.MYUI = ApplyAll
+SlashCmdList.MYUI = function(msg)
+    if msg == "test" then
+        ns.ToggleTestMode()
+    else
+        ApplyAll()
+    end
+end

@@ -4,5 +4,8 @@
 ## Author: Your Name
 ## Version: 0.1.0
 
+Libs\oUF\oUF.xml
+
 Config.lua
 Core.lua
+UnitFrames.lua

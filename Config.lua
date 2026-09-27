@@ -55,6 +55,13 @@ ns.config = {
             point = { "CENTER", "UIParent", "CENTER", 250, -150 },
             scale = 1.0,
         },
+        TargetFrameToT = {
+            point = { "TOPRIGHT", "TargetFrame", "BOTTOMRIGHT", 0, -8 },
+        },
+        FocusFrame = {
+            point = { "BOTTOMLEFT", "PlayerFrame", "TOPLEFT", 0, 40 },
+            scale = 1.0,
+        },
         PetFrame = {
             point = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 60, 0 },
             scale = 1.0,
