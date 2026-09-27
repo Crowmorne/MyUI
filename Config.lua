@@ -43,6 +43,11 @@ ns.config = {
             point = { "BOTTOMLEFT", "StanceBar", "TOPLEFT", 0, 0 },
         },
 
+        -- Chat window above the player frame
+        ChatFrame1 = {
+            point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, 300 },
+        },
+
         -- Menu buttons (character, spellbook, ...)
         MicroMenuContainer = {
             point = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", 0, 0 },
