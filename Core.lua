@@ -9,16 +9,16 @@ local LAYOUT_NAME = "MyUI"
 local pending = false
 
 -- A hidden frame in a stack takes up no space:
--- anchoring to it anchors to whatever it would sit on instead.
-local function ResolveAnchor(name)
+-- anchoring to it anchors to wherever it would sit instead.
+local function ResolveAnchor(name, relativePoint)
     local frame = _G[name]
     local cfg = ns.config.frames[name]
     while frame and not frame:IsShown() and cfg and cfg.point do
-        name = cfg.point[2]
+        name, relativePoint = cfg.point[2], cfg.point[3]
         frame = _G[name]
         cfg = ns.config.frames[name]
     end
-    return name
+    return name, relativePoint
 end
 
 -- Frames managed by Edit Mode carry their system (and index, if there are several) on the frame
@@ -92,10 +92,11 @@ local function ApplyEditModeLayout(frames)
             else
                 if cfg.point then
                     local point, relativeTo, relativePoint, x, y = unpack(cfg.point)
+                    relativeTo, relativePoint = ResolveAnchor(relativeTo, relativePoint)
                     systemInfo.isInDefaultPosition = false
                     systemInfo.anchorInfo = {
                         point = point,
-                        relativeTo = ResolveAnchor(relativeTo),
+                        relativeTo = relativeTo,
                         relativePoint = relativePoint,
                         offsetX = x,
                         offsetY = y,

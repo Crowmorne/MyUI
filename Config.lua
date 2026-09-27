@@ -24,6 +24,14 @@ ns.config = {
             point = { "BOTTOM", "MultiBarBottomLeft", "TOP", 0, 0 },
         },
 
+        -- Stance bar in the bottom left corner, exit vehicle button on top of it
+        StanceBar = {
+            point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0 },
+        },
+        MainMenuBarVehicleLeaveButton = {
+            point = { "BOTTOMLEFT", "StanceBar", "TOPLEFT", 0, 0 },
+        },
+
         -- Menu buttons (character, spellbook, ...)
         MicroMenuContainer = {
             point = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", 0, 0 },
