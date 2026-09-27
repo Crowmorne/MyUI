@@ -31,7 +31,8 @@ ns.config = {
 
         -- Cast bar above the action bars
         PlayerCastingBarFrame = {
-            point = { "BOTTOM", "MultiBarBottomRight", "TOP", 0, 20 },
+            -- spacing of 25 to account for the spell name that shows up below the bar
+            point = { "BOTTOM", "MultiBarBottomRight", "TOP", 0, 25 },
         },
 
         -- Stance bar in the bottom left corner, exit vehicle button on top of it
@@ -47,23 +48,25 @@ ns.config = {
             point = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", 0, 0 },
         },
 
+        -- Player and target on top of action bar 3, each sticking out by half its width (110)
+        -- past the bar's edge, so pet and target of target fit in below them, next to the bar
         PlayerFrame = {
-            point = { "CENTER", "UIParent", "CENTER", -250, -150 },
+            point = { "BOTTOMLEFT", "MultiBarBottomRight", "TOPLEFT", -110, 10 },
             scale = 1.2,
         },
         TargetFrame = {
-            point = { "CENTER", "UIParent", "CENTER", 250, -150 },
-            scale = 1.0,
+            point = { "BOTTOMRIGHT", "MultiBarBottomRight", "TOPRIGHT", 110, 10 },
+            scale = 1.2,
         },
         TargetFrameToT = {
             point = { "TOPRIGHT", "TargetFrame", "BOTTOMRIGHT", 0, -8 },
         },
         FocusFrame = {
-            point = { "BOTTOMLEFT", "PlayerFrame", "TOPLEFT", 0, 40 },
+            point = { "BOTTOMRIGHT", "PlayerFrame", "TOPRIGHT", 0, 8 },
             scale = 1.0,
         },
         PetFrame = {
-            point = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 60, 0 },
+            point = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 0, -8 },
             scale = 1.0,
         },
     },
