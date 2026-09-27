@@ -139,12 +139,8 @@ local function ApplyFrame(frame, cfg, scaledInLayout)
     end
 end
 
--- Things parented to this frame are never visible, even if Blizzard calls Show() on them
-local hiddenParent = CreateFrame("Frame")
-hiddenParent:Hide()
-
--- The bag slots only show below the open bag window, not next to the action bars.
--- Covers both the separate and the combined bags setting.
+-- The bag slots live in the bag window, so they only show while it's open.
+-- Separate and combined bags use different windows; the slots move to whichever opens.
 local function AttachBagsBar(containerFrame)
     BagsBar:SetParent(containerFrame)
     BagsBar:ClearAllPoints()
@@ -152,9 +148,18 @@ local function AttachBagsBar(containerFrame)
 end
 
 local function MoveBagsBar()
-    BagsBar:SetParent(hiddenParent)
-    for _, containerFrame in ipairs({ ContainerFrame1, ContainerFrameCombinedBags }) do
-        containerFrame:HookScript("OnShow", AttachBagsBar)
+    AttachBagsBar(ContainerFrame1)
+    ContainerFrame1:HookScript("OnShow", AttachBagsBar)
+    ContainerFrameCombinedBags:HookScript("OnShow", AttachBagsBar)
+end
+
+-- Blizzard stacks the bag windows up from the bottom right corner whenever a bag opens or closes.
+-- Right after it, lift the lowest one; the others are stacked on top of it and move along.
+local function RaiseBagWindows()
+    local lowest = ContainerFrameSettingsManager:GetBagsShown()[1]
+    if lowest then
+        local point, relativeTo, relativePoint, x = lowest:GetPoint(1)
+        lowest:SetPoint(point, relativeTo, relativePoint, x, ns.config.bagsOffsetY / lowest:GetScale())
     end
 end
 
@@ -214,6 +219,7 @@ for _, cfg in pairs(ns.config.frames) do
 end
 
 MoveBagsBar()
+hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
 
 local events = CreateFrame("Frame")
 events:RegisterEvent("PLAYER_ENTERING_WORLD")

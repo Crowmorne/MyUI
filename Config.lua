@@ -6,6 +6,9 @@ local _, ns = ...
 -- Positions of frames that Edit Mode manages are written into the addon's Edit Mode layout.
 -- point = { point, relativeTo, relativePoint, x, y }  -- same arguments as Frame:SetPoint
 ns.config = {
+    -- Distance of the lowest bag window from the bottom of the screen (Blizzard's default: 85)
+    bagsOffsetY = 200,
+
     frames = {
         -- Status bars (experience, reputation, ...), then action bars 1, 2 and 3 stacked on top
         MainStatusTrackingBarContainer = {
