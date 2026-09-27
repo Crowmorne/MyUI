@@ -1,0 +1,8 @@
+## Interface: 16001
+## Title: My UI
+## Notes: My hardcoded UI configuration
+## Author: Your Name
+## Version: 0.1.0
+
+Config.lua
+Core.lua
