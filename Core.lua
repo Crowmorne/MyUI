@@ -188,7 +188,6 @@ local function EnableActionBars()
     -- The last argument is the "always show action bars" option; keep it as it is
     table.insert(toggles, GetCVarBool("alwaysShowActionBars"))
     SetActionBarToggles(unpack(toggles))
-    MultiActionBar_Update()
 end
 
 local function ApplyAll()
@@ -225,6 +224,10 @@ end
 -- the action bars above it have to move
 SecondaryStatusTrackingBarContainer:HookScript("OnShow", ApplyAll)
 SecondaryStatusTrackingBarContainer:HookScript("OnHide", ApplyAll)
+
+-- Bar 2 shows up a moment after its checkbox gets ticked, after the layout was already written
+-- with bar 3 sitting in its place. Write it again once bar 2 is there.
+MultiBarBottomLeft:HookScript("OnShow", ApplyAll)
 
 MoveBagsBar()
 hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
