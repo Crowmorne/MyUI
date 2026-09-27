@@ -91,6 +91,9 @@ end
 
 local function Style(self, unit)
     local cfg = SIZES[unit]
+    -- oUF sets left click to target and right click to open the unit menu; buttons only
+    -- listen to the left mouse button unless told otherwise
+    self:RegisterForClicks("AnyUp")
     if cfg.powerHeight then
         self:SetSize(cfg.width, cfg.healthHeight + BAR_GAP + cfg.powerHeight)
     else
