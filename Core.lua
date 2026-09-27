@@ -163,6 +163,13 @@ local function RaiseBagWindows()
     end
 end
 
+-- Only the menu buttons, no border or background behind them.
+-- Transparent instead of hidden, so Blizzard showing them again changes nothing.
+local function HideMicroMenuArt()
+    MicroMenu.BorderArt:SetAlpha(0)
+    MicroMenu.BackgroundArt:SetAlpha(0)
+end
+
 -- The "Action Bar 2-5" checkboxes from the options menu, saved per character
 local function EnableActionBars()
     local toggles = { GetActionBarToggles() }
@@ -220,6 +227,7 @@ end
 
 MoveBagsBar()
 hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
+HideMicroMenuArt()
 
 local events = CreateFrame("Frame")
 events:RegisterEvent("PLAYER_ENTERING_WORLD")
