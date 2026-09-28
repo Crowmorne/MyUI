@@ -1,16 +1,21 @@
 local _, ns = ...
 local oUF = ns.oUF
 
--- Flat bars like Tukui: a plain white texture, colored by oUF
-local TEXTURE = "Interface\\Buttons\\WHITE8x8"
-local BAR_GAP = 3
+-- Bars use a texture, colored by oUF. Backgrounds and borders are flat.
+local BAR_TEXTURE = "Interface\\AddOns\\MyUI\\UnitFrameTexture.tga"
+local FLAT_TEXTURE = "Interface\\Buttons\\WHITE8x8"
+
+-- Brightness of the bar colors (1 = oUF's colors unchanged)
+local BRIGHTNESS = 0.9
+-- Space between health and power bar: 1 makes their borders overlap into a single line
+local BAR_GAP = 1
 
 -- Settings only the custom frames have. Position and scale come from the Blizzard frame's
 -- entry in Config.lua, so the layout stays the same with or without the custom frames.
 local SIZES = {
-    player = { width = 220, healthHeight = 26, powerHeight = 8 },
+    player = { width = 220, healthHeight = 26, powerHeight = 16 },
     target = {
-        width = 220, healthHeight = 26, powerHeight = 8,
+        width = 220, healthHeight = 26, powerHeight = 16,
         -- Buffs above the frame: 8 icons fill its width exactly (8 * 24 + 7 * 4 = 220).
         -- Debuffs right of the frame, debuffsPerRow icons per row.
         auraSize = 24, auraSpacing = 4, maxAuras = 16, debuffsPerRow = 4, auraTimerFontSize = 10,
@@ -34,14 +39,29 @@ local function AddBackdrop(bar)
     backdrop:SetPoint("TOPLEFT", -1, 1)
     backdrop:SetPoint("BOTTOMRIGHT", 1, -1)
     backdrop:SetFrameLevel(bar:GetFrameLevel() - 1)
-    backdrop:SetBackdrop({ bgFile = TEXTURE, edgeFile = TEXTURE, edgeSize = 1 })
+    backdrop:SetBackdrop({ bgFile = FLAT_TEXTURE, edgeFile = FLAT_TEXTURE, edgeSize = 1 })
     backdrop:SetBackdropColor(0.1, 0.1, 0.1)
     backdrop:SetBackdropBorderColor(0, 0, 0)
+end
+
+-- Runs after oUF colored a health or power bar: the same color, dimmed.
+-- Power bars can get a plain color instead of a color object (altR, altG, altB).
+local function DimColor(bar, _, color, altR, altG, altB)
+    local r, g, b = altR, altG, altB
+    if color then
+        r, g, b = color:GetRGB()
+    end
+    if r then
+        bar:SetStatusBarColor(r * BRIGHTNESS, g * BRIGHTNESS, b * BRIGHTNESS)
+    end
 end
 
 local function AddText(frame, bar, point, x, tag)
     local text = bar:CreateFontString(nil, "OVERLAY")
     text:SetFont(STANDARD_TEXT_FONT, 12, "OUTLINE")
+    -- A black shadow on top of the outline keeps the text readable on bright bars, even white ones
+    text:SetShadowColor(0, 0, 0, 1)
+    text:SetShadowOffset(1, -1)
     text:SetPoint(point, bar, point, x, 0)
     frame:Tag(text, tag)
     return text
@@ -55,7 +75,7 @@ local function AddPredictionBar(health, anchor, width, r, g, b, a)
     bar:SetPoint("BOTTOM")
     bar:SetPoint("LEFT", anchor, "RIGHT")
     bar:SetWidth(width)
-    bar:SetStatusBarTexture(TEXTURE)
+    bar:SetStatusBarTexture(BAR_TEXTURE)
     bar:SetStatusBarColor(r, g, b, a)
     return bar
 end
@@ -104,12 +124,13 @@ local function Style(self, unit)
     health:SetPoint("TOPLEFT")
     health:SetPoint("TOPRIGHT")
     health:SetHeight(cfg.healthHeight)
-    health:SetStatusBarTexture(TEXTURE)
+    health:SetStatusBarTexture(BAR_TEXTURE)
     -- Gray if tagged by someone else or offline, class color for players, reaction color for NPCs
     health.colorTapping = true
     health.colorDisconnected = true
     health.colorClass = true
     health.colorReaction = true
+    health.PostUpdateColor = DimColor
     AddBackdrop(health)
     self.Health = health
 
@@ -139,19 +160,20 @@ local function Style(self, unit)
         power:SetPoint("BOTTOMLEFT")
         power:SetPoint("BOTTOMRIGHT")
         power:SetHeight(cfg.powerHeight)
-        power:SetStatusBarTexture(TEXTURE)
+        power:SetStatusBarTexture(BAR_TEXTURE)
         power.colorPower = true
+        power.PostUpdateColor = DimColor
         power.frequentUpdates = true
         AddBackdrop(power)
         self.Power = power
+        AddText(self, power, "RIGHT", -4, "[curpp] / [maxpp]")
     end
 
     if unit == "player" then
-        AddText(self, textLayer, "LEFT", 4, "[curpp]")
-        AddText(self, textLayer, "RIGHT", -4, "[curhp]")
+        AddText(self, textLayer, "RIGHT", -4, "[curhp] / [maxhp]")
     elseif unit == "target" then
         -- The name ends before the health number, cut off with "..." if too long
-        local healthText = AddText(self, textLayer, "RIGHT", -4, "[curhp]")
+        local healthText = AddText(self, textLayer, "RIGHT", -4, "[curhp] / [maxhp]")
         local name = AddText(self, textLayer, "LEFT", 4, "[smartlevel] [name]")
         name:SetPoint("RIGHT", healthText, "LEFT", -4, 0)
         name:SetJustifyH("LEFT")
