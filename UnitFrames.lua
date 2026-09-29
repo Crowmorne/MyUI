@@ -5,8 +5,10 @@ local oUF = ns.oUF
 local BAR_TEXTURE = "Interface\\AddOns\\MyUI\\UnitFrameTexture.tga"
 local FLAT_TEXTURE = "Interface\\Buttons\\WHITE8x8"
 
--- Brightness of the bar colors (1 = oUF's colors unchanged)
-local BRIGHTNESS = 0.9
+-- Opacity of the filled part of health and power bars (1 = oUF's colors unchanged).
+-- Below 1, the dark background shows through and the bar looks darker. The colors themselves
+-- can't be dimmed: in combat they're secret values the addon isn't allowed to calculate with.
+local BAR_ALPHA = 0.9
 -- Space between health and power bar: 1 makes their borders overlap into a single line
 local BAR_GAP = 1
 
@@ -42,18 +44,6 @@ local function AddBackdrop(bar)
     backdrop:SetBackdrop({ bgFile = FLAT_TEXTURE, edgeFile = FLAT_TEXTURE, edgeSize = 1 })
     backdrop:SetBackdropColor(0.1, 0.1, 0.1)
     backdrop:SetBackdropBorderColor(0, 0, 0)
-end
-
--- Runs after oUF colored a health or power bar: the same color, dimmed.
--- Power bars can get a plain color instead of a color object (altR, altG, altB).
-local function DimColor(bar, _, color, altR, altG, altB)
-    local r, g, b = altR, altG, altB
-    if color then
-        r, g, b = color:GetRGB()
-    end
-    if r then
-        bar:SetStatusBarColor(r * BRIGHTNESS, g * BRIGHTNESS, b * BRIGHTNESS)
-    end
 end
 
 local function AddText(frame, bar, point, x, tag)
@@ -125,12 +115,12 @@ local function Style(self, unit)
     health:SetPoint("TOPRIGHT")
     health:SetHeight(cfg.healthHeight)
     health:SetStatusBarTexture(BAR_TEXTURE)
+    health:GetStatusBarTexture():SetAlpha(BAR_ALPHA)
     -- Gray if tagged by someone else or offline, class color for players, reaction color for NPCs
     health.colorTapping = true
     health.colorDisconnected = true
     health.colorClass = true
     health.colorReaction = true
-    health.PostUpdateColor = DimColor
     AddBackdrop(health)
     self.Health = health
 
@@ -161,8 +151,8 @@ local function Style(self, unit)
         power:SetPoint("BOTTOMRIGHT")
         power:SetHeight(cfg.powerHeight)
         power:SetStatusBarTexture(BAR_TEXTURE)
+        power:GetStatusBarTexture():SetAlpha(BAR_ALPHA)
         power.colorPower = true
-        power.PostUpdateColor = DimColor
         power.frequentUpdates = true
         AddBackdrop(power)
         self.Power = power
