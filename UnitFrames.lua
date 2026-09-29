@@ -2,7 +2,8 @@ local _, ns = ...
 local oUF = ns.oUF
 
 -- Bars use a texture, colored by oUF. Backgrounds and borders are flat.
-local BAR_TEXTURE = "Interface\\AddOns\\MyUI\\UnitFrameTexture.tga"
+-- "Smoothv2", from Shadowed Unit Frames
+local BAR_TEXTURE = "Interface\\AddOns\\MyUI\\Smoothv2.tga"
 local FLAT_TEXTURE = "Interface\\Buttons\\WHITE8x8"
 
 -- Opacity of the filled part of health and power bars (1 = oUF's colors unchanged).
