@@ -32,7 +32,7 @@ ns.config = {
         -- Cast bar above the action bars
         PlayerCastingBarFrame = {
             -- spacing of 25 to account for the spell name that shows up below the bar
-            point = { "BOTTOM", "MultiBarBottomRight", "TOP", 0, 25 },
+            point = { "CENTER", "UIParent", "CENTER", 0, -170 },
         },
 
         -- Stance bar in the bottom left corner, exit vehicle button on top of it
@@ -45,7 +45,7 @@ ns.config = {
 
         -- Chat window above the player frame
         ChatFrame1 = {
-            point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, 300 },
+            point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 32, 80 },
         },
 
         -- Menu buttons (character, spellbook, ...)
@@ -56,11 +56,11 @@ ns.config = {
         -- Player and target on top of action bar 3, each sticking out by half its width (110)
         -- past the bar's edge, so pet and target of target fit in below them, next to the bar
         PlayerFrame = {
-            point = { "BOTTOMLEFT", "MultiBarBottomRight", "TOPLEFT", -110, 10 },
+            point = { "RIGHT", "UIParent", "CENTER", -150, -150 },
             scale = 1.2,
         },
         TargetFrame = {
-            point = { "BOTTOMRIGHT", "MultiBarBottomRight", "TOPRIGHT", 110, 10 },
+            point = { "LEFT", "UIParent", "CENTER", 150, -150 },
             scale = 1.2,
         },
         TargetFrameToT = {
