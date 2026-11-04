@@ -1,7 +1,8 @@
 ## Interface: 16001
 ## Title: My UI
 ## Notes: My hardcoded UI configuration
-## Author: Your Name
+## IconTexture: Interface\Icons\Inv_chicken2_brown
+## Author: Norwig Crowmorne
 ## Version: 0.1.0
 
 Libs\oUF\oUF.xml
