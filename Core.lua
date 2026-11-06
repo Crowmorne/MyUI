@@ -191,6 +191,7 @@ local function ApplyAll()
     end
     pending = false
     ns.ApplyGameOptions()
+    ns.ApplyKeybindings()
 
     local frames = {}
     for name, cfg in pairs(ns.config.frames) do

@@ -9,5 +9,6 @@ Libs\oUF\oUF.xml
 
 Config.lua
 GameOptions.lua
+Keybindings.lua
 Core.lua
 UnitFrames.lua

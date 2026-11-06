@@ -12,6 +12,7 @@ Nothing needs to be set up in game.
 - Replaces the player, target, target of target, focus and pet frames with custom [oUF](https://github.com/oUF-wow/oUF) frames.
 - Moves the bag slots into the bag window and lifts the bag windows up from the bottom of the screen.
 - Sets a few game options: enables some action bars, auto loot on, numbers on cooldowns, etc.
+- Sets the keybindings.
 
 
 ## Install
@@ -39,6 +40,7 @@ ln -s ~/development/MyUI "/Applications/World of Warcraft/_forever_/Interface/Ad
 | `Config.lua` | Values that get tuned, like positions and scales |
 | `Core.lua` | Writes the Edit Mode layout and applies the config |
 | `GameOptions.lua` | Values from the game's options dialog |
+| `Keybindings.lua` | Keybindings that differ from the game's defaults |
 | `UnitFrames.lua` | Custom unit frames and their settings, like bar sizes |
 | `Libs/oUF` | Bundled copy of oUF |
 
