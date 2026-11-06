@@ -8,5 +8,6 @@
 Libs\oUF\oUF.xml
 
 Config.lua
+GameOptions.lua
 Core.lua
 UnitFrames.lua

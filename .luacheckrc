@@ -27,6 +27,7 @@ globals = {
     "MicroMenu",
     "SecondaryStatusTrackingBarContainer",
     "SetActionBarToggles",
+    "SetCVar",
     "SlashCmdList",
     "StanceBar",
     "STANDARD_TEXT_FONT",
