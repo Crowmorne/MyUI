@@ -74,5 +74,20 @@ ns.config = {
             point = { "TOPLEFT", "PlayerFrame", "BOTTOMLEFT", 0, -8 },
             scale = 1.0,
         },
+
+        -- Cooldown manager
+        BuffBarCooldownViewer = {
+            point = { "CENTER", "UIParent", "CENTER", 400, -60 },
+        },
+        BuffIconCooldownViewer = {
+            point = { "CENTER", "UIParent", "CENTER", -300, 60 },
+        },
+        EssentialCooldownViewer = {
+            point = { "BOTTOMLEFT", "UtilityCooldownViewer", "TOPLEFT", 0, 10 },
+        },
+        UtilityCooldownViewer = {
+            -- just above the custom player frame's top left corner
+            point = { "BOTTOMLEFT", "UIParent", "CENTER", -440, -140 },
+        },
     },
 }

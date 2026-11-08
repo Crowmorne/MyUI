@@ -19,4 +19,5 @@ function ns.ApplyGameOptions()
     SetCVar("autoLootDefault", 1)       -- enable auto loot
     SetCVar("cameraSmoothStyle", 0)     -- camera following: never adjust camera
     SetCVar("countdownForCooldowns", 1) -- numbers on cooldowns
+    SetCVar("cooldownViewerEnabled", 1) -- cooldown manager
 end
