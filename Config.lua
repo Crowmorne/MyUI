@@ -35,6 +35,17 @@ ns.config = {
             point = { "CENTER", "UIParent", "CENTER", 0, -170 },
         },
 
+        -- Swing timers at the top of the screen, main hand first, the others below it
+        SwingTimerMainHandFrame = {
+            point = { "TOP", "UIParent", "TOP", 0, -20 },
+        },
+        SwingTimerOffHandFrame = {
+            point = { "TOP", "SwingTimerMainHandFrame", "BOTTOM", 0, -4 },
+        },
+        SwingTimerRangedFrame = {
+            point = { "TOP", "SwingTimerOffHandFrame", "BOTTOM", 0, -4 },
+        },
+
         -- Stance bar in the bottom left corner, exit vehicle button on top of it
         StanceBar = {
             point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0 },
