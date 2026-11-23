@@ -123,8 +123,9 @@ local function ApplyEditModeLayout(frames)
         end
     end
 
-    -- No bar art and no gryphons on action bar 1
+    -- No bar art, no page arrows and no gryphons on action bar 1
     SetSetting(FindSystemInfo(layout, MainActionBar), Enum.EditModeActionBarSetting.HideBarArt, 1)
+    SetSetting(FindSystemInfo(layout, MainActionBar), Enum.EditModeActionBarSetting.HideBarScrolling, 1)
     SetSetting(FindSystemInfo(layout, MainActionBar.EndCaps.LeftEndCap), Enum.EditModeMainActionBarEndCapSetting.Hidden, 1)
     SetSetting(FindSystemInfo(layout, MainActionBar.EndCaps.RightEndCap), Enum.EditModeMainActionBarEndCapSetting.Hidden, 1)
 
