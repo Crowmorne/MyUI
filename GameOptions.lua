@@ -16,6 +16,9 @@ end
 function ns.ApplyGameOptions()
     EnableActionBars()
     SetCVar("deselectOnClick", 1)       -- sticky targeting off (the setting is inverted)
+    SetCVar("softTargetFriend", 0)      -- spells without a target don't go to the nearest friendly unit
+    SetCVar("softTargetEnemy", 0)       -- spells without a target don't go to the nearest enemy
+    SetCVar("autoSelfCast", 1)          -- heals without a friendly target (none or an enemy) go on yourself
     SetCVar("autoLootDefault", 1)       -- enable auto loot
     SetCVar("cameraSmoothStyle", 0)     -- camera following: never adjust camera
     SetCVar("countdownForCooldowns", 1) -- numbers on cooldowns
