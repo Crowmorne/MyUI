@@ -46,6 +46,11 @@ ns.config = {
             point = { "TOP", "SwingTimerOffHandFrame", "BOTTOM", 0, -4 },
         },
 
+        -- Loot rolls in the middle of the screen, stacking upwards
+        GroupLootContainer = {
+            point = { "BOTTOM", "UIParent", "CENTER", 0, -140 },
+        },
+
         -- Stance bar in the bottom left corner, exit vehicle button on top of it
         StanceBar = {
             point = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", 0, 0 },

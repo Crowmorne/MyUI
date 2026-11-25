@@ -185,6 +185,13 @@ local function HideMicroMenuArt()
     MicroMenu.BackgroundArt:SetAlpha(0)
 end
 
+-- Blizzard keeps the loot rolls in its container above the action bars and pulls them back in
+-- whenever a roll shows. It skips frames flagged to be ignored, so take the rolls out and flag them.
+local function KeepLootRollPosition()
+    GroupLootContainer.ignoreFramePositionManager = true
+    GroupLootContainer:SetParent(UIParent)
+end
+
 local function ApplyAll()
     if InCombatLockdown() then
         pending = true
@@ -224,6 +231,7 @@ StanceBar:HookScript("OnHide", ApplyAll)
 MoveBagsBar()
 hooksecurefunc("UpdateContainerFrameAnchors", RaiseBagWindows)
 HideMicroMenuArt()
+KeepLootRollPosition()
 
 local events = CreateFrame("Frame")
 events:RegisterEvent("PLAYER_ENTERING_WORLD")

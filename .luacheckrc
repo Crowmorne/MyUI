@@ -21,6 +21,7 @@ globals = {
     "GetActionBarToggles",
     "GetCVarBool",
     "GetTime",
+    "GroupLootContainer",
     "hooksecurefunc",
     "InCombatLockdown",
     "MainActionBar",
