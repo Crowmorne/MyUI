@@ -82,6 +82,10 @@ ns.config = {
         TargetFrameToT = {
             point = { "TOPRIGHT", "TargetFrame", "BOTTOMRIGHT", 0, -8 },
         },
+        -- Target of target of target has no Blizzard frame, so this is the custom frame itself
+        MyUITargetFrameToToT = {
+            point = { "TOPRIGHT", "MyUITargetFrameToT", "BOTTOMRIGHT", 0, -8 },
+        },
         FocusFrame = {
             point = { "BOTTOMRIGHT", "PlayerFrame", "TOPRIGHT", 0, 8 },
             scale = 1.0,

@@ -25,6 +25,7 @@ local SIZES = {
     },
     -- Small frames: only a health bar with the name
     targettarget = { width = 110, healthHeight = 20 },
+    targettargettarget = { width = 110, healthHeight = 20 },
     focus = { width = 110, healthHeight = 20 },
     pet = { width = 110, healthHeight = 20 },
 }
@@ -213,6 +214,8 @@ Spawn("target", "TargetFrame")
 Spawn("targettarget", "TargetFrameToT")
 Spawn("focus", "FocusFrame")
 Spawn("pet", "PetFrame")
+-- No Blizzard frame to copy from: Core.lua places it from its own entry in Config.lua
+oUF:Spawn("targettargettarget", "MyUITargetFrameToToT")
 
 -- Test mode (/myui test): dummy buffs and debuffs in the target frame's layout, to see a full boss fight.
 -- The game fills the real aura container itself and can't be fed fake auras, so this draws
