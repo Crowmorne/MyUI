@@ -99,8 +99,10 @@ local function ApplyEditModeLayout(frames)
 
     for name, cfg in pairs(frames) do
         local frame = _G[name]
+
         if frame.system then
             local systemInfo = FindSystemInfo(layout, frame)
+
             if not systemInfo then
                 print(addonName .. ": not in the Edit Mode layout: " .. name)
             else
@@ -116,8 +118,17 @@ local function ApplyEditModeLayout(frames)
                         offsetY = y,
                     }
                 end
+
                 if cfg.scale and SetFrameSize(systemInfo, name, cfg.scale) then
                     scaledInLayout[name] = true
+                end
+
+                if cfg.rows then
+                    SetSetting(systemInfo, Enum.EditModeActionBarSetting.NumRows, cfg.rows)
+                end
+
+                if cfg.icons then
+                    SetSetting(systemInfo, Enum.EditModeActionBarSetting.NumIcons, cfg.icons)
                 end
             end
         end

@@ -5,12 +5,13 @@ local _, ns = ...
 -- Keys are the global names of Blizzard's frames (use /fstack in game to find them).
 -- Positions of frames that Edit Mode manages are written into the addon's Edit Mode layout.
 -- point = { point, relativeTo, relativePoint, x, y }  -- same arguments as Frame:SetPoint
+-- rows, icons = Edit Mode's "Rows" and "# of Icons" of an action bar (bar 1 always has 12 icons)
 ns.config = {
     -- Distance of the lowest bag window from the bottom of the screen (Blizzard's default: 85)
     bagsOffsetY = 200,
 
     frames = {
-        -- Status bars (experience, reputation, ...), then action bars 1, 2 and 3 stacked on top
+        -- Status bars (experience, reputation, ...), then action bars 1 and 2 stacked on top, bar 3 beside them
         MainStatusTrackingBarContainer = {
             point = { "BOTTOM", "UIParent", "BOTTOM", 0, 0 },
             scale = 0.9,
@@ -19,14 +20,21 @@ ns.config = {
             point = { "BOTTOM", "MainStatusTrackingBarContainer", "TOP", 0, 0 },
             scale = 0.9,
         },
+        -- Core keys as a block of 6 x 3: bar 1 holds the plain and Shift rows, bar 2 the Ctrl row
         MainActionBar = {
-            point = { "BOTTOM", "SecondaryStatusTrackingBarContainer", "TOP", 0, 0 },
+            -- Right edge half the gap to bar 3 left of the middle: both blocks are 6 wide, so the pair is centered
+            point = { "BOTTOMRIGHT", "SecondaryStatusTrackingBarContainer", "TOP", -5, 0 },
+            rows = 2,
         },
         MultiBarBottomLeft = {
             point = { "BOTTOM", "MainActionBar", "TOP", 0, 0 },
+            icons = 6,
         },
+        -- 5 to 0 as a block of 6 x 2 right of the core block, bottoms aligned: plain and Shift rows
         MultiBarBottomRight = {
-            point = { "BOTTOM", "MultiBarBottomLeft", "TOP", 0, 0 },
+            -- gap to the core block; bar 1's offset is half of it
+            point = { "BOTTOMLEFT", "MainActionBar", "BOTTOMRIGHT", 10, 0 },
+            rows = 2,
         },
 
         -- Cast bar above the action bars
